@@ -4,11 +4,18 @@ public class EllipticCurve {
     private BigInteger a, b; // y^2 = x^3 + ax + b
     private BigInteger p; // mod p (prime)
 
-    EllipticCurve(BigInteger a, BigInteger b, BigInteger p) {
+    EllipticCurve(BigInteger a, BigInteger b, BigInteger p) throws NotECC  {
         this.a = a;
         this.b = b;
         this.p = p;
+        if(checkECC()) throw new NotECC();
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private boolean checkECC() {
+        return BigInteger.ZERO.compareTo(a.pow(3).multiply(new BigInteger("4")).add(b.pow(2).multiply(new BigInteger("27")))) == 0;
+    } 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 

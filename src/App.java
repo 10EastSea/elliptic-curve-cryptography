@@ -6,7 +6,7 @@ public class App {
         System.out.println((new BigInteger("-1")).mod(BigInteger.TEN));
     }
 
-    public static void test1() throws NoExistInverse {
+    public static void test1() throws Exception {
         EllipticCurve ec = new EllipticCurve(new BigInteger("2"), new BigInteger("3"), new BigInteger("97"));
         
         Point P = new Point(3, 6);
@@ -33,23 +33,74 @@ public class App {
 
     public static void test2() throws NoExistInverse {
         int n = 243;
-        EllipticCurve ec = new EllipticCurve(new BigInteger("2"), new BigInteger("3"), new BigInteger("97"));
-        
-        Point P = new Point(3, 6);
-        System.out.println(n + "P: " + ec.find_nP(P, new BigInteger("" + n)));
+        try {
+            EllipticCurve ec = new EllipticCurve(new BigInteger("2"), new BigInteger("3"), new BigInteger("97"));
+            Point P = new Point(3, 6);
+            System.out.println(n + "P: " + ec.find_nP(P, new BigInteger("" + n)));
+        } catch(NotECC e) {
+            System.out.println("It is not an elliptic curve used for encryption..");
+            return;
+        }
     }
 
     public static void test3() throws NoExistInverse {
         int n = 16;
-        EllipticCurve ec = new EllipticCurve(new BigInteger("1"), new BigInteger("6"), new BigInteger("11"));
-        
-        Point P = new Point(2, 7);
-        System.out.println(n + "P: " + ec.find_nP(P, new BigInteger("" + n)));
+        try {
+            EllipticCurve ec = new EllipticCurve(new BigInteger("1"), new BigInteger("6"), new BigInteger("11"));
+            Point P = new Point(2, 7);
+            System.out.println(n + "P: " + ec.find_nP(P, new BigInteger("" + n)));
+        } catch(NotECC e) {
+            System.out.println("It is not an elliptic curve used for encryption..");
+            return;
+        }
+    }
+
+    public static void test4() throws NoExistInverse {
+        try {
+            new EllipticCurve(new BigInteger("-3"), new BigInteger("2"), new BigInteger("11"));
+        } catch(NotECC e) {
+            System.out.println("It is not an elliptic curve used for encryption..");
+            return;
+        }
+    }
+
+    public static boolean checkDigits(String s) {
+        for(int i=0; i<s.length(); i++) {
+            if(!Character.isDigit(s.charAt(i))) return false;
+        }
+        return true;
+    }
+
+    public static void help(String msg) {
+        System.out.println("\n" + msg + "\n");
+        System.out.println("    y^2 = x^3 + ax + b (mod p)");
+        System.out.println("        => n * P(xp, yp) = Q(xq, yq)");
+        System.out.println();
+        System.out.println("    params: <a> <b> <p> <xp> <yp> <n>");
+        System.out.println("        a : Coefficient of x on the elliptic curve");
+        System.out.println("        b : Constant on the elliptic curve");
+        System.out.println("        p : Prime number used for modular operations");
+        System.out.println("        xp: Point x above the elliptic curve");
+        System.out.println("        yp: Point y above the elliptic curve");
+        System.out.println("        n : Number to do scalar multiplication");
+        System.out.println();
     }
 
     public static void main(String[] args) throws Exception {
-        // test1();
-        // test2();
-        // test3();
+        if(args[0].equals("-help")) { help("Usage: java -cp .:../lib/bignum-projects.jar App <a> <b> <p> <xp> <yp> <n>\nThis program provides \'xq\' and \'yq\'"); return; }
+        
+        if(args.length < 6) { help("Please enter all required parameters"); return; }
+        if(!checkDigits(args[0]) || !checkDigits(args[1]) || !checkDigits(args[2]) || !checkDigits(args[3]) || !checkDigits(args[4]) || !checkDigits(args[5])) {
+            help("<a>, <b>, <p>, <xp>, <yp>, and <n> must be number"); return;
+        }
+
+        int n = Integer.parseInt(args[5]);
+        try {
+            EllipticCurve ec = new EllipticCurve(new BigInteger(args[0]), new BigInteger(args[1]), new BigInteger(args[2]));
+            Point P = new Point(args[3], args[4]);
+            System.out.println(n + "P: " + ec.find_nP(P, new BigInteger("" + n)));
+        } catch(NotECC e) { System.out.println("It is not an elliptic curve used for encryption.."); }
+
+        return;
     }
 }

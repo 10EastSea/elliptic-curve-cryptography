@@ -8,6 +8,11 @@ public class Point {
         this.y = BigInteger.valueOf(y);
     }
 
+    Point(String x, String y) {
+        this.x = BigInteger.valueOf(Integer.parseInt(x));
+        this.y = BigInteger.valueOf(Integer.parseInt(y));
+    }
+
     Point(BigInteger x, BigInteger y) {
         this.x = x;
         this.y = y;
