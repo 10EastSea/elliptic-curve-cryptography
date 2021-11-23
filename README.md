@@ -1,18 +1,37 @@
-## Getting Started
+# Elliptic Curve Cryptography
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+y^2 = x^3 + `a`x + `b` (mod `p`)
+<br> &nbsp; &nbsp; &nbsp; &nbsp;
+=> `n` * P(`xp`, `yp`) = Q(`xq`, `yq`)
 
-## Folder Structure
+> This program provides `xq` and `yq`.
 
-The workspace contains two folders by default, where:
+<br />
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+# Usage
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+```Bash
+# java version: openjdk 11.0.11
+cd bin
+java -cp .:../lib/bignum-projects.jar App <a> <b> <p> <xp> <yp> <n>
+```
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+### Params
+- `a` : Coefficient of x on the elliptic curve
+- `b` : Constant on the elliptic curve
+- `p` : Prime number used for modular operations
+- `xp` : Point x above the elliptic curve
+- `yp` : Point y above the elliptic curve
+- `n` : Number to do scalar multiplication
 
-## Dependency Management
+### Example
+```
+>> java -cp .:../lib/bignum-projects.jar App 2 3 97 3 6 243
+243P: (80, 87)
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+>> java -cp .:../lib/bignum-projects.jar App 1 6 11 2 7 16
+16P: (8, 3)
+
+>> java -cp .:../lib/bignum-projects.jar App -3 2 11 2 2 1
+It is not an elliptic curve used for encryption..
+```
