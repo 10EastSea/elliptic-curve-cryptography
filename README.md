@@ -34,4 +34,21 @@ java -cp .:../lib/bignum-projects.jar App <a> <b> <p> <xp> <yp> <n>
 
 >> java -cp .:../lib/bignum-projects.jar App -3 2 11 2 2 1
 It is not an elliptic curve used for encryption..
+
+>> java -cp .:../lib/bignum-projects.jar App -help         
+
+Usage: java -cp .:../lib/bignum-projects.jar App <a> <b> <p> <xp> <yp> <n>
+This program provides 'xq' and 'yq'
+
+    y^2 = x^3 + ax + b (mod p)
+        => n * P(xp, yp) = Q(xq, yq)
+
+    params: <a> <b> <p> <xp> <yp> <n>
+        a : Coefficient of x on the elliptic curve
+        b : Constant on the elliptic curve
+        p : Prime number used for modular operations
+        xp: Point x above the elliptic curve
+        yp: Point y above the elliptic curve
+        n : Number to do scalar multiplication
+
 ```
