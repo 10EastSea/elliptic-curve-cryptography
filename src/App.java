@@ -66,6 +66,7 @@ public class App {
 
     public static boolean checkDigits(String s) {
         for(int i=0; i<s.length(); i++) {
+            if(i == 0 && s.charAt(i) == '-') continue;
             if(!Character.isDigit(s.charAt(i))) return false;
         }
         return true;
